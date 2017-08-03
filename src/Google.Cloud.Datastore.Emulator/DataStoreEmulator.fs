@@ -5,7 +5,7 @@ open System.Runtime.InteropServices
 
 [<System.Runtime.InteropServices.Guid("259CB426-2F44-4B03-A818-DAA7413C432D")>]
 type EmulatorOutput = { Port: int}
-let emulatorStartInfoByOS() =
+let private emulatorStartInfoByOS() =
     if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
          System.Diagnostics.ProcessStartInfo("cmd.exe", 
                                 arguments = "/c gcloud beta emulators datastore start",
@@ -18,7 +18,7 @@ let emulatorStartInfoByOS() =
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             CreateNoWindow = false)    
-let emulatorVarsByOS() = 
+let private emulatorVarsByOS() = 
    if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
         System.Diagnostics.ProcessStartInfo("cmd.exe", 
                                 arguments = "/c gcloud beta emulators datastore env-init",
