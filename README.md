@@ -1,2 +1,2 @@
 # google-cloud-datastore-emulator
-.NET emulator for Google Cloud Datastore
+Dummy Google cloud Datastore emulator for NET Core. The current version only support windows and is written in F#

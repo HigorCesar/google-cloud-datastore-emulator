@@ -1,25 +1,42 @@
 module Google.Cloud.Datastore.Emulator.Core
 open System.Diagnostics
 open System
+open System.Runtime.InteropServices
 
-type EmulatorOutput = { port: int}
-
-type DataStoreEmulator() = 
-    let emulator = new Process()
-    let setVars = new Process()
-    let emulatorStartInfo = System.Diagnostics.ProcessStartInfo("cmd.exe", 
+[<System.Runtime.InteropServices.Guid("259CB426-2F44-4B03-A818-DAA7413C432D")>]
+type EmulatorOutput = { Port: int}
+let emulatorStartInfoByOS() =
+    if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
+         System.Diagnostics.ProcessStartInfo("cmd.exe", 
                                 arguments = "/c gcloud beta emulators datastore start",
-                                UseShellExecute = true,
+                                UseShellExecute = false,
                                 RedirectStandardOutput = true,
                                 CreateNoWindow = false)
-    let setVarStartInfo = System.Diagnostics.ProcessStartInfo("cmd.exe", 
+    else
+        System.Diagnostics.ProcessStartInfo("cmd.exe", 
                             arguments = "/c gcloud beta emulators datastore env-init",
-                            UseShellExecute = true,
+                            UseShellExecute = false,
                             RedirectStandardOutput = true,
                             CreateNoWindow = false)    
+let emulatorVarsByOS() = 
+   if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
+        System.Diagnostics.ProcessStartInfo("cmd.exe", 
+                                arguments = "/c gcloud beta emulators datastore env-init",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = false)
+    else
+        System.Diagnostics.ProcessStartInfo("cmd.exe", 
+                            arguments = "/c gcloud beta emulators datastore env-init",
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            CreateNoWindow = false)
+type DataStoreEmulator() = 
+    let emulator = new Process()
+    let setVars = new Process() 
     member this.Start() =
-        emulator.StartInfo <- emulatorStartInfo
-        setVars.StartInfo <- setVarStartInfo
+        emulator.StartInfo <- emulatorStartInfoByOS()
+        setVars.StartInfo <- emulatorVarsByOS()
         emulator.Start() |> ignore
         setVars.Start() |> ignore
         let mutable port = 0
@@ -28,7 +45,7 @@ type DataStoreEmulator() =
             let isHostConfig = line |> (fun (l :string) -> l.Contains("DATASTORE_EMULATOR_HOST"))
             if isHostConfig then
                 port <- line.Split(':').[1] |> int
-        {port = port}
+        {Port = port}
 
     member this.Stop() =
         setVars.Dispose()
