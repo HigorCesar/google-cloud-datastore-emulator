@@ -48,9 +48,14 @@ type DataStoreEmulator() =
         {Port = port}
 
     member this.Stop() =
+        if (not setVars.HasExited) then
+            setVars.Kill();
+        if (not emulator.HasExited) then
+            emulator.Kill()
+            
         setVars.Dispose()
         emulator.Dispose()  
 
     interface IDisposable with
-        member x.Dispose() = 
-            x.Stop()
+        member this.Dispose() = 
+            this.Stop()

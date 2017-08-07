@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
-     <TargetFramework>netcoreapp1.1</TargetFramework>
-      <AssemblyVersion>0.1.0-beta.1</AssemblyVersion>
-      <FileVersion>0.1.0-beta.1</FileVersion>
-      <Version>0.1.0-beta.1</Version>
+    <title>Google.Cloud.Datastore.Emulator</title>
+    <Description>Dummy Google cloud Datastore emulator for NET Core. The current version only support windows and is written in F#</Description>
+    <Authors>Higor Ramos</Authors>
+    <owners>Higor Ramos</owners>
+    <copyright>Copyright 2017</copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <AssemblyName>Google.Cloud.Datastore.Emulator</AssemblyName>
+    <PackageId>Google.Cloud.Datastore.Emulator</PackageId>
+    <Language>F#</Language>
+    <PackageProjectUrl>https://github.com/higorcesar/google-cloud-datastore-emulator</PackageProjectUrl>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <VersionPrefix>0.1.1</VersionPrefix>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/higorcesar/google-cloud-datastore-emulator.git</RepositoryUrl>
+    <NoWarn>$(NoWarn);0618</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataStoreEmulator.fs"/>
@@ -14,7 +26,7 @@
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All"/>
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0"/>
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.Caching.SqlConfig.Tools" Version="1.0.0" />
